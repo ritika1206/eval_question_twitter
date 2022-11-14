@@ -1,15 +1,15 @@
 class User < ApplicationRecord
   has_many :tweets, dependent: :destroy
 
-  has_many :follower_tweets, -> { distinct }, through: :followers, source: :tweets
-  has_many :following_tweets, -> { distinct }, through: :followings, source: :tweets
-
-  has_many :follower_ids, class_name: 'UserFollowing', foreign_key: 'following_id', dependent: :destroy, inverse_of: :follower, counter_cache: :followers_count
+  has_many :follower_references, class_name: 'UserFollowing', foreign_key: 'following_id', dependent: :destroy, inverse_of: :follower, counter_cache: :followers_count
   has_many :followers, through: :follower_ids, source: :follower
 
-  has_many :following_ids, class_name: 'UserFollowing', foreign_key: 'follower_id', dependent: :destroy, inverse_of: :following, counter_cache: :followings_count
+  has_many :following_references, class_name: 'UserFollowing', foreign_key: 'follower_id', dependent: :destroy, inverse_of: :following, counter_cache: :followings_count
   has_many :followings, through: :following_ids, source: :following
   has_many :faviourites, -> { where(is_following_favourite: true) }, through: :following_ids, source: :following
+
+  has_many :follower_tweets, -> { distinct }, through: :followers, source: :tweets
+  has_many :following_tweets, -> { distinct }, through: :followings, source: :tweets
 end
 
 # user
