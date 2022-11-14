@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :tweets, dependent: :destroy, counter_cache: :tweets_count
+  has_many :tweets, dependent: :destroy
 
   has_many :follower_tweets, -> { distinct }, through: :followers, source: :tweets
   has_many :following_tweets, -> { distinct }, through: :followings, source: :tweets
